@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const URLSchema = mongoose.Schema({
+  shortId: {
+    type: String,
+    required: true,
+    unique:true
+  },
   longUrl: {
     type: String,
     required: true,
