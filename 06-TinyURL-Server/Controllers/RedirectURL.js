@@ -3,7 +3,7 @@ import { URLs } from "../Models/url.js";
 export const RedirectURL = async (req, res) => {
   const { shortId } = req.params;
   try {
-    const resUrls = await URLs.find({ _id: shortId });
+    const resUrls = await URLs.find({ shortId: shortId });
     const element = resUrls[0];
     console.log(element);
 

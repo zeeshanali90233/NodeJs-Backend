@@ -1,6 +1,10 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
 
 let products = [
   {
@@ -38,6 +42,7 @@ app.put("/products/:id", (req, res) => {
   if (index !== -1) {
     products[index] = { ...products[index], ...updatedProduct };
     res.json(products[index]);
+    
   } else {
     res.status(404).json({ message: "Product not found" });
   }

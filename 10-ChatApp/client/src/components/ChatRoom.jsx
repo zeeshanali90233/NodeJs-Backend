@@ -8,7 +8,6 @@ const ChatRoom = ({ username, room, socket, onLeave }) => {
     if (!socket) return;
 
     socket.on("message", (msg) => {
-      console.log("New message received:", msg);
       setMessages((prev) => [...prev, msg]);
     });
     return () => {

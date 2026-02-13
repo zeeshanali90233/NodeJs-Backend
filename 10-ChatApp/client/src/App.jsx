@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import JoinGroup from "./components/JoinGroup";
 import ChatRoom from "./components/ChatRoom";
 import "./App.css";
 import { io } from "socket.io-client";
@@ -10,7 +9,10 @@ let socket;
 
 function App() {
   const [joined, setJoined] = useState(false);
-  const [userInfo, setUserInfo] = useState({ username: "", room: "" });
+
+  // User Form Fields
+  const [username, setUsername] = useState("");
+  const [room, setRoom] = useState("");
 
   useEffect(() => {
     socket = io(SOCKET_URL);
@@ -28,27 +30,46 @@ function App() {
     };
   }, []);
 
-  const handleJoin = ({ username, room }) => {
-    setUserInfo({ username, room });
+  const handleLeave = () => {
+    setUsername("");
+    setRoom("");
+    setJoined(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (socket) {
       socket.emit("join", room);
     }
     setJoined(true);
   };
-
-  const handleLeave = () => {
-    setUserInfo({ username: "", room: "" });
-    setJoined(false);
-  };
-
   return (
     <>
-      {!joined ? (
-        <JoinGroup onJoin={handleJoin} />
+      {joined == false ? (
+        <div className="join-group-container">
+          <h2 style={{ color: "black" }}>Join a Chat Group</h2>
+          <form className="join-group-form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Group Name"
+              value={room}
+              onChange={(e) => setRoom(e.target.value)}
+              required
+            />
+            <button type="submit">Join</button>
+          </form>
+        </div>
       ) : (
         <ChatRoom
-          username={userInfo.username}
-          room={userInfo.room}
+          username={username}
+          room={room}
           socket={socket}
           onLeave={handleLeave}
         />

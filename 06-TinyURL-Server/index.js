@@ -13,7 +13,7 @@ app.use(express.json());
 
 ConnectMongoDb();
 
-app.use("/url", URLRoute);
+app.use("/", URLRoute);
 
 app.listen(5050, () => {
   console.log("I am workinf");

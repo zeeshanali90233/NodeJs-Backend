@@ -1,9 +1,7 @@
 import cors from "cors";
 import express from "express";
 import Product from "./model/Product.js";
-import dotenv from "dotenv";
-
-dotenv.config();
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -12,7 +10,9 @@ app.use(express.json());
 
 async function ConnectDB() {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(
+      "mongodb+srv://hassan:aliweww1234wess@cluster0.c4bnpyq.mongodb.net/",
+    );
     console.log("MongoDB connected");
   } catch (error) {
     console.error("MongoDB connection error:", error);
@@ -37,7 +37,7 @@ app.post("/products", async (req, res) => {
     await newProduct.save();
     res.status(201).json(newProduct);
   } catch (error) {
-    res.status(500).json({ message: "Error creating product" });
+    res.status(500).json({ message: "Error creating product", error: error });
   }
 });
 
@@ -58,7 +58,7 @@ app.put("/products/:id", async (req, res) => {
     const updatedProduct = await Product.findOneAndUpdate(
       { id },
       updatedProductFields,
-      { new: true }
+      { new: true },
     );
     res.json(updatedProduct);
   } catch (error) {
@@ -66,6 +66,6 @@ app.put("/products/:id", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(5050, () => {
+  console.log("Server is running on port 5050");
 });
