@@ -3,12 +3,11 @@ import dotenv from "dotenv";
 import UserRoute from "./Routes/user.js";
 import { connectDB } from "./Utils/mongodb.js";
 import cors from "cors";
-
 dotenv.config();
 
 const app = express();
 
-connectDB()
+connectDB();
 
 app.use(cors());
 app.use(express.json());
