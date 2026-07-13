@@ -2,17 +2,20 @@ import cors from "cors";
 import express from "express";
 import Product from "./model/Product.js";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
+
+import dns from "node:dns/promises";
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 app.use(cors());
 app.use(express.json());
 
 async function ConnectDB() {
   try {
-    await mongoose.connect(
-      "mongodb+srv://hassan:aliweww1234wess@cluster0.c4bnpyq.mongodb.net/",
-    );
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("MongoDB connected");
   } catch (error) {
     console.error("MongoDB connection error:", error);

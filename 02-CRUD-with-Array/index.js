@@ -3,7 +3,12 @@ import cors from "cors";
 
 const app = express();
 
-app.use(cors());
+app.use(cors(
+  {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  }
+));
 app.use(express.json());
 
 let products = [
@@ -12,12 +17,12 @@ let products = [
     name: "Corsair HS45 Headphone",
     price: 4500,
     imageUrl: "https://techmatched.pk/wp-content/uploads/2024/05/4-13.png",
-    desc: "A comfortable and high-quality gaming headset.",
+    desc: "A comfortable and high-quality gaming.",
   },
   {
     id: 2,
     name: "RTX 3060",
-    price: 93000,
+    price: 93000, 
     imageUrl:
       "https://static.webx.pk/files/2603/Images/14-czone.com.pk-1540-12831-250122082031-2603-2261410-231124021614482.jpg",
     desc: "A powerful graphics card from nvidia.",
@@ -42,7 +47,6 @@ app.put("/products/:id", (req, res) => {
   if (index !== -1) {
     products[index] = { ...products[index], ...updatedProduct };
     res.json(products[index]);
-    
   } else {
     res.status(404).json({ message: "Product not found" });
   }
